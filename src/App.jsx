@@ -1,26 +1,35 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { Home } from "./pages/Home";
-import { BookList } from "./pages/BookList";
-import { Book } from "./pages/Book";
-import { NewBook } from "./pages/NewBook";
 import { NotFound } from "./pages/NotFound";
 import { BookRoutes } from "./BookRoutes";
-import { BookLayout } from "./BookLayout";
 import "./App.css";
 
 function App() {
+  const location = useLocation();
+  console.log(location);
   return (
     <>
       <nav>
         <ul>
           <li>
-            <Link to='/'>Home</Link>
+            <NavLink
+              style={({ isActive }) => {
+                return isActive ? { color: "red" } : {};
+              }}
+              to='/'
+              state="Hi"
+            >
+              {({isActive}) => {
+                return isActive ? "Active Home" : "Home"
+              }}
+            </NavLink>
           </li>
           <li>
-            <Link to='/books'>Books</Link>
+            <NavLink to='/books'>Books</NavLink>
           </li>
         </ul>
       </nav>
+      {location.state}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/books/*' element={<BookRoutes />}></Route>
